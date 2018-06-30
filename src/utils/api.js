@@ -1,10 +1,10 @@
-const TOKEN = 'XPTO';
+const headers = new Headers({ Authorization: '123', 'content-type': 'application/json' });
 const URL = 'http://localhost:3001';
-const headers = new Headers({ Authorization: TOKEN });
-const GET = { method: 'GET', headers: headers, mode: 'cors', cache: 'default' };
-// const POST = { method: 'POST', headers: headers, mode: 'cors', cache: 'default' };
-// const PUT = { method: 'PUT', headers: headers, mode: 'cors', cache: 'default' };
-// const DELETE = { method: 'DELETE', headers: headers, mode: 'cors', cache: 'default' };
+const options = { headers: headers, mode: 'cors' };
+const GET = { method: 'GET', ...options };
+const POST = { method: 'POST', ...options };
+// const PUT = { method: 'PUT', ...options };
+// const DELETE = { method: 'DELETE', ...options };
 
 export async function getCategories() {
   const response = await fetch(`${URL}/categories`, GET);
@@ -18,5 +18,18 @@ export async function getCategoriesPosts(category) {
 
 export async function getPosts() {
   const response = await fetch(`${URL}/posts`, GET);
+  return response.json();
+}
+
+export async function vote(id, option) {
+  const response = await fetch(`${URL}/posts/${id}`, {
+    body: JSON.stringify({ option }),
+    ...POST
+  });
+  return response.json();
+}
+
+export async function getPostComments(postId) {
+  const response = await fetch(`${URL}/posts/${postId}/comments`, GET);
   return response.json();
 }

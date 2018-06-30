@@ -2,7 +2,6 @@ import './index.css';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Home from './components/Home';
-import NotFound from './components/NotFound';
 import registerServiceWorker from './registerServiceWorker';
 import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
@@ -19,7 +18,6 @@ ReactDOM.render(
     <Router>
       <Switch>
         <Route path="/:category?" component={Home} />
-        <Route component={NotFound} />
       </Switch>
     </Router>
   </Provider>,

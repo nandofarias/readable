@@ -5,6 +5,7 @@
   "dependencies": {
     "@material-ui/core": "1.1.0",
     "@material-ui/icons": "1.1.0",
+    "date-fns": "2.0.0-alpha.11",
     "react": "16.4.0",
     "react-dom": "^16.4.0",
     "react-redux": "5.0.7",
