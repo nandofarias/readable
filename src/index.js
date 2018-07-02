@@ -2,6 +2,7 @@ import './index.css';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Home from './components/Home';
+import NewPost from './components/NewPost';
 import registerServiceWorker from './registerServiceWorker';
 import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
@@ -17,6 +18,7 @@ ReactDOM.render(
   <Provider store={store}>
     <Router>
       <Switch>
+        <Route path="/new" component={NewPost} />
         <Route path="/:category?" component={Home} />
       </Switch>
     </Router>
