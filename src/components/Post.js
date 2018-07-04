@@ -50,7 +50,7 @@ class Post extends Component {
         <CardHeader
           avatar={
             <Avatar aria-label="Recipe" className={classes.avatar}>
-              {post.voteScore}
+              {post.voteScore.toString()}
             </Avatar>
           }
           action={
@@ -59,7 +59,7 @@ class Post extends Component {
             </IconButton>
           }
           title={post.title}
-          subheader={formatRelative(subDays(new Date(), 3), new Date(post.timestamp))}
+          subheader={formatRelative(subDays(new Date(post.timestamp), 3), new Date(post.timestamp))}
         />
 
         <CardContent>
