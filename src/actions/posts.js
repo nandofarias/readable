@@ -28,6 +28,11 @@ export const getAllPosts = () => async dispatch => {
   return dispatch(receivePosts(posts));
 };
 
+export const getSinglePost = postId => async dispatch => {
+  const post = await api.getSinglePost(postId);
+  return post.error ? dispatch(receivePosts([])) : dispatch(receivePosts([post]));
+};
+
 export const upVote = id => async dispatch => {
   const post = await api.vote(id, 'upVote');
   return dispatch(receiveUpVote(post));

@@ -21,6 +21,11 @@ export async function getPosts() {
   return response.json();
 }
 
+export async function getSinglePost(postId) {
+  const response = await fetch(`${URL}/posts/${postId}`, GET);
+  return response.json();
+}
+
 export async function vote(id, option) {
   const response = await fetch(`${URL}/posts/${id}`, {
     body: JSON.stringify({ option }),

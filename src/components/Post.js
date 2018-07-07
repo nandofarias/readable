@@ -14,9 +14,11 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import ThumbUp from '@material-ui/icons/ThumbUp';
 import ThumbDown from '@material-ui/icons/ThumbDown';
+import Button from '@material-ui/core/Button';
 import red from '@material-ui/core/colors/red';
 import { formatRelative, subDays } from 'date-fns';
 import { getComments } from '../actions/comments';
+import Comment from './Comment';
 
 const styles = theme => ({
   expand: {
@@ -63,7 +65,10 @@ class Post extends Component {
         />
 
         <CardContent>
-          <Typography component="p">{post.body}</Typography>
+          <Typography paragraph variant="body2">
+            {post.author}:
+          </Typography>
+          <Typography paragraph>{post.body}</Typography>
         </CardContent>
         <CardActions disableActionSpacing>
           <IconButton aria-label="Thumbs Up" onClick={() => upVote(post.id)}>
@@ -72,6 +77,9 @@ class Post extends Component {
           <IconButton aria-label="Thumbs Down" onClick={() => downVote(post.id)}>
             <ThumbDown />
           </IconButton>
+          <Button color="inherit" onClick={() => this.handleExpandClick(post.id)}>
+            {post.commentCount} Comments
+          </Button>
           <IconButton
             className={this.state.expanded ? classes.expandOpen : classes.expand}
             onClick={() => this.handleExpandClick(post.id)}
@@ -83,16 +91,7 @@ class Post extends Component {
         </CardActions>
         <Collapse in={this.state.expanded} timeout="auto" unmountOnExit>
           {comments ? (
-            comments.map(comment => {
-              return (
-                <CardContent key={comment.id}>
-                  <Typography paragraph variant="body2">
-                    {comment.author}:
-                  </Typography>
-                  <Typography paragraph>{comment.body}</Typography>
-                </CardContent>
-              );
-            })
+            comments.map(comment => <Comment key={comment.id} comment={comment} />)
           ) : (
             <CardContent>
               <Typography paragraph variant="body2">

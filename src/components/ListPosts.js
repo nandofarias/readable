@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
-import { getAllPosts, getCategoryPosts } from '../actions/posts';
 import Post from './Post';
 import Typography from '@material-ui/core/Typography';
 import Select from '@material-ui/core/Select';
@@ -16,21 +14,12 @@ class ListPosts extends Component {
   state = {
     sort: 'by-votes'
   };
-  componentDidMount() {
-    const { match, getAllPosts, getCategoryPosts } = this.props;
-    if (match.params.category) {
-      getCategoryPosts(match.params.category);
-    } else {
-      getAllPosts();
-    }
-  }
 
   handleChangeSort = ({ target }) => this.setState({ sort: target.value });
 
   renderPosts = () => {
     const sortFn = this.state.sort === 'by-votes' ? this.byVoteScore : this.byDate;
     const posts = this.props.posts.sort(sortFn);
-    console.log(posts);
     return (
       <div>
         {posts.map(post => {
@@ -65,9 +54,4 @@ const mapStateToProps = state => ({
   posts: state.posts
 });
 
-export default withRouter(
-  connect(
-    mapStateToProps,
-    { getAllPosts, getCategoryPosts }
-  )(ListPosts)
-);
+export default connect(mapStateToProps)(ListPosts);

@@ -1,7 +1,8 @@
 import './index.css';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Home from './components/Home';
+import Home from './pages/Home';
+import SinglePost from './pages/SinglePost';
 import registerServiceWorker from './registerServiceWorker';
 import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
@@ -17,6 +18,7 @@ ReactDOM.render(
   <Provider store={store}>
     <Router>
       <Switch>
+        <Route path="/:category/:postId" component={SinglePost} />
         <Route path="/:category?" component={Home} />
       </Switch>
     </Router>
