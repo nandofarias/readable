@@ -9,7 +9,7 @@ import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { withStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
-import { upVote, downVote, deleteComment } from '../actions/comments';
+import { upVoteComment, downVoteComment, deleteComment } from '../actions/comments';
 
 const styles = () => ({
   container: {
@@ -18,7 +18,7 @@ const styles = () => ({
   }
 });
 
-const Comment = ({ comment, classes, upVote, downVote, deleteComment }) => (
+const Comment = ({ comment, classes, upVoteComment, downVoteComment, deleteComment }) => (
   <Card className={classes.container}>
     <CardHeader
       action={
@@ -31,10 +31,10 @@ const Comment = ({ comment, classes, upVote, downVote, deleteComment }) => (
     />
     <CardContent>
       <Typography paragraph>{comment.body} Votes</Typography>
-      <IconButton aria-label="Thumbs Up" onClick={() => upVote(comment.id)}>
+      <IconButton aria-label="Thumbs Up" onClick={() => upVoteComment(comment.id)}>
         <ThumbUp />
       </IconButton>
-      <IconButton aria-label="Thumbs Down" onClick={() => downVote(comment.id)}>
+      <IconButton aria-label="Thumbs Down" onClick={() => downVoteComment(comment.id)}>
         <ThumbDown />
       </IconButton>
     </CardContent>
@@ -44,6 +44,6 @@ const Comment = ({ comment, classes, upVote, downVote, deleteComment }) => (
 export default withStyles(styles)(
   connect(
     null,
-    { upVote, downVote, deleteComment }
+    { upVoteComment, downVoteComment, deleteComment }
   )(Comment)
 );

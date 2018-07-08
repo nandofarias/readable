@@ -10,12 +10,12 @@ export const receiveComments = comments => ({
   comments
 });
 
-export const receiveUpVote = comment => ({
+export const receiveCommentUpVote = comment => ({
   type: RECEIVE_COMMENT_UP_VOTE,
   comment
 });
 
-export const receiveDownVote = comment => ({
+export const receiveCommentDownVote = comment => ({
   type: RECEIVE_COMMENT_DOWN_VOTE,
   comment
 });
@@ -30,14 +30,14 @@ export const getComments = postId => async dispatch => {
   return dispatch(receiveComments(comments));
 };
 
-export const upVote = id => async dispatch => {
+export const upVoteComment = id => async dispatch => {
   const comment = await api.voteComment(id, 'upVote');
-  return dispatch(receiveUpVote(comment));
+  return dispatch(receiveCommentUpVote(comment));
 };
 
-export const downVote = id => async dispatch => {
+export const downVoteComment = id => async dispatch => {
   const comment = await api.voteComment(id, 'downVote');
-  return dispatch(receiveDownVote(comment));
+  return dispatch(receiveCommentDownVote(comment));
 };
 
 export const deleteComment = id => async dispatch => {

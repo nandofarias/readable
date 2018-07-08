@@ -2,19 +2,25 @@ import * as api from '../utils/api';
 export const RECEIVE_POSTS = 'RECEIVE_POSTS';
 export const RECEIVE_POST_UP_VOTE = 'RECEIVE_POST_UP_VOTE';
 export const RECEIVE_POST_DOWN_VOTE = 'RECEIVE_POST_DOWN_VOTE';
+export const RECEIVE_DELETED_POST = 'RECEIVE_DELETE_POST';
 
 export const receivePosts = posts => ({
   type: RECEIVE_POSTS,
   posts
 });
 
-export const receiveUpVote = post => ({
+export const receivePostUpVote = post => ({
   type: RECEIVE_POST_UP_VOTE,
   post
 });
 
-export const receiveDownVote = post => ({
+export const receivePostDownVote = post => ({
   type: RECEIVE_POST_DOWN_VOTE,
+  post
+});
+
+export const receiveDeletedPost = post => ({
+  type: RECEIVE_DELETED_POST,
   post
 });
 
@@ -33,12 +39,17 @@ export const getSinglePost = postId => async dispatch => {
   return post.error ? dispatch(receivePosts([])) : dispatch(receivePosts([post]));
 };
 
-export const upVote = id => async dispatch => {
+export const upVotePost = id => async dispatch => {
   const post = await api.votePost(id, 'upVote');
-  return dispatch(receiveUpVote(post));
+  return dispatch(receivePostUpVote(post));
 };
 
-export const downVote = id => async dispatch => {
+export const downVotePost = id => async dispatch => {
   const post = await api.votePost(id, 'downVote');
-  return dispatch(receiveDownVote(post));
+  return dispatch(receivePostDownVote(post));
+};
+
+export const deletePost = id => async dispatch => {
+  const post = await api.deletePost(id);
+  return dispatch(receiveDeletedPost(post));
 };

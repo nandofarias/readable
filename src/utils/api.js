@@ -51,3 +51,8 @@ export async function deleteComment(id) {
   const response = await fetch(`${URL}/comments/${id}`, DELETE);
   return response.json();
 }
+
+export async function deletePost(id) {
+  const response = await fetch(`${URL}/posts/${id}`, DELETE);
+  return response.json();
+}

@@ -9,8 +9,11 @@ import InputLabel from '@material-ui/core/InputLabel';
 import { withStyles } from '@material-ui/core/styles';
 
 const styles = {
-  order: {
+  orderBy: {
     margin: '20px 25px'
+  },
+  placeholder: {
+    marginLeft: '25px'
   }
 };
 
@@ -37,7 +40,7 @@ class ListPosts extends Component {
   };
 
   renderNotFound = () => (
-    <Typography paragraph variant="body2">
+    <Typography variant="title" className={this.props.classes.placeholder}>
       No posts found!
     </Typography>
   );
@@ -45,7 +48,7 @@ class ListPosts extends Component {
     const { classes } = this.props;
     return (
       <div>
-        <FormControl className={classes.order}>
+        <FormControl className={classes.orderBy}>
           <InputLabel>Sort By</InputLabel>
           <Select value={this.state.sort} onChange={this.handleChangeSort}>
             <MenuItem value="by-votes">Vote Score</MenuItem>
