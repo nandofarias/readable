@@ -4,7 +4,7 @@ const options = { headers: headers, mode: 'cors' };
 const GET = { method: 'GET', ...options };
 const POST = { method: 'POST', ...options };
 // const PUT = { method: 'PUT', ...options };
-// const DELETE = { method: 'DELETE', ...options };
+const DELETE = { method: 'DELETE', ...options };
 
 export async function getCategories() {
   const response = await fetch(`${URL}/categories`, GET);
@@ -26,7 +26,7 @@ export async function getSinglePost(postId) {
   return response.json();
 }
 
-export async function vote(id, option) {
+export async function votePost(id, option) {
   const response = await fetch(`${URL}/posts/${id}`, {
     body: JSON.stringify({ option }),
     ...POST
@@ -36,5 +36,18 @@ export async function vote(id, option) {
 
 export async function getPostComments(postId) {
   const response = await fetch(`${URL}/posts/${postId}/comments`, GET);
+  return response.json();
+}
+
+export async function voteComment(id, option) {
+  const response = await fetch(`${URL}/comments/${id}`, {
+    body: JSON.stringify({ option }),
+    ...POST
+  });
+  return response.json();
+}
+
+export async function deleteComment(id) {
+  const response = await fetch(`${URL}/comments/${id}`, DELETE);
   return response.json();
 }

@@ -39,6 +39,10 @@ const styles = theme => ({
 class Post extends Component {
   state = { expanded: false };
 
+  componentDidMount() {
+    this.props.getComments(this.props.post.id);
+  }
+
   handleExpandClick = postId => {
     if (!this.state.expanded) {
       this.props.getComments(postId);
@@ -78,7 +82,7 @@ class Post extends Component {
             <ThumbDown />
           </IconButton>
           <Button color="inherit" onClick={() => this.handleExpandClick(post.id)}>
-            {post.commentCount} Comments
+            {comments.length} Comments
           </Button>
           <IconButton
             className={this.state.expanded ? classes.expandOpen : classes.expand}
@@ -90,8 +94,10 @@ class Post extends Component {
           </IconButton>
         </CardActions>
         <Collapse in={this.state.expanded} timeout="auto" unmountOnExit>
-          {comments ? (
-            comments.map(comment => <Comment key={comment.id} comment={comment} />)
+          {comments.length > 0 ? (
+            comments
+              .sort((commentA, commentB) => commentB.voteScore - commentA.voteScore)
+              .map(comment => <Comment key={comment.id} comment={comment} />)
           ) : (
             <CardContent>
               <Typography paragraph variant="body2">
@@ -107,7 +113,7 @@ class Post extends Component {
 
 function mapStateToProps(state, props) {
   return {
-    comments: state.comments[props.post.id]
+    comments: state.comments[props.post.id] || []
   };
 }
 

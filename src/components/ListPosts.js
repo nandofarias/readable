@@ -6,6 +6,13 @@ import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
+import { withStyles } from '@material-ui/core/styles';
+
+const styles = {
+  order: {
+    margin: '20px 25px'
+  }
+};
 
 class ListPosts extends Component {
   byVoteScore = (postA, postB) => postB.voteScore - postA.voteScore;
@@ -35,9 +42,10 @@ class ListPosts extends Component {
     </Typography>
   );
   render() {
+    const { classes } = this.props;
     return (
       <div>
-        <FormControl>
+        <FormControl className={classes.order}>
           <InputLabel>Sort By</InputLabel>
           <Select value={this.state.sort} onChange={this.handleChangeSort}>
             <MenuItem value="by-votes">Vote Score</MenuItem>
@@ -54,4 +62,4 @@ const mapStateToProps = state => ({
   posts: state.posts
 });
 
-export default connect(mapStateToProps)(ListPosts);
+export default withStyles(styles)(connect(mapStateToProps)(ListPosts));
