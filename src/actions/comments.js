@@ -5,22 +5,22 @@ export const RECEIVE_COMMENT_UP_VOTE = 'RECEIVE_COMMENT_UP_VOTE';
 export const RECEIVE_COMMENT_DOWN_VOTE = 'RECEIVE_COMMENT_DOWN_VOTE';
 export const RECEIVE_DELETED_COMMENT = 'RECEIVE_DELETE_COMMENT';
 
-export const receiveComments = comments => ({
+const receiveComments = comments => ({
   type: RECEIVE_COMMENTS,
   comments
 });
 
-export const receiveCommentUpVote = comment => ({
+const receiveCommentUpVote = comment => ({
   type: RECEIVE_COMMENT_UP_VOTE,
   comment
 });
 
-export const receiveCommentDownVote = comment => ({
+const receiveCommentDownVote = comment => ({
   type: RECEIVE_COMMENT_DOWN_VOTE,
   comment
 });
 
-export const receiveDeletedComment = comment => ({
+const receiveDeletedComment = comment => ({
   type: RECEIVE_DELETED_COMMENT,
   comment
 });

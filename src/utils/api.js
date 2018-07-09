@@ -56,3 +56,19 @@ export async function deletePost(id) {
   const response = await fetch(`${URL}/posts/${id}`, DELETE);
   return response.json();
 }
+
+export async function createPost({ title, body, author, category }) {
+  const bodyForm = {
+    id: Date.now(),
+    timestamp: Date.now(),
+    title,
+    body,
+    author,
+    category
+  };
+  const response = await fetch(`${URL}/posts`, {
+    body: JSON.stringify(bodyForm),
+    ...POST
+  });
+  return response.json();
+}

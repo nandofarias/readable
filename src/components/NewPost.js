@@ -8,6 +8,8 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import AddIcon from '@material-ui/icons/Add';
 import { withStyles } from '@material-ui/core/styles';
+import { connect } from 'react-redux';
+import { createPost } from '../actions/posts';
 
 const styles = () => ({
   floatingButton: {
@@ -21,20 +23,46 @@ const styles = () => ({
 });
 class NewPost extends React.Component {
   state = {
-    open: false
+    isDialogOpened: false,
+    title: '',
+    body: '',
+    author: '',
+    category: ''
   };
 
   handleClickOpen = () => {
-    this.setState({ open: true });
+    this.setState({ isDialogOpened: true });
   };
 
   handleClose = () => {
-    this.setState({ open: false });
+    this.setState({ isDialogOpened: false });
+  };
+
+  handleSubmitForm = () => {
+    this.props.createPost(this.state);
+    this.setState({
+      title: '',
+      body: '',
+      author: '',
+      category: '',
+      isDialogOpened: false
+    });
+  };
+
+  handleInputChange = event => {
+    console.log('teste');
+    const target = event.target;
+    const value = target.value;
+    const name = target.name;
+
+    this.setState({
+      [name]: value
+    });
   };
 
   render() {
     return (
-      <div>
+      <form onSubmit={this.handleSubmitForm}>
         <Button
           variant="fab"
           className={this.props.classes.floatingButton}
@@ -45,30 +73,68 @@ class NewPost extends React.Component {
           <AddIcon />
         </Button>
         <Dialog
-          open={this.state.open}
+          open={this.state.isDialogOpened}
           onClose={this.handleClose}
           aria-labelledby="new-post-dialog-title"
         >
           <DialogTitle id="new-post-dialog-title">New Post</DialogTitle>
           <DialogContent>
             <DialogContentText>Create a new post to your audience.</DialogContentText>
-            <TextField autoFocus id="title" label="Title" fullWidth required />
-            <TextField id="body" label="Body" fullWidth required />
-            <TextField id="author" label="Author" fullWidth required />
-            <TextField id="category" label="Category" fullWidth required />
+            <TextField
+              autoFocus
+              id="title"
+              name="title"
+              label="Title"
+              fullWidth
+              required
+              value={this.state.title}
+              onChange={this.handleInputChange}
+            />
+            <TextField
+              id="body"
+              name="body"
+              label="Body"
+              fullWidth
+              required
+              value={this.state.body}
+              onChange={this.handleInputChange}
+            />
+            <TextField
+              id="author"
+              name="author"
+              label="Author"
+              fullWidth
+              required
+              value={this.state.author}
+              onChange={this.handleInputChange}
+            />
+            <TextField
+              id="category"
+              name="category"
+              label="Category"
+              fullWidth
+              required
+              value={this.state.category}
+              onChange={this.handleInputChange}
+            />
           </DialogContent>
           <DialogActions>
             <Button variant="outlined" onClick={this.handleClose} color="primary">
               Cancel
             </Button>
-            <Button variant="contained" onClick={this.handleClose} color="primary">
+            <Button variant="contained" onClick={this.handleSubmitForm} color="primary">
               Create
             </Button>
           </DialogActions>
         </Dialog>
-      </div>
+      </form>
     );
   }
 }
 
-export default withStyles(styles)(NewPost);
+export default withStyles(styles)(
+  connect(
+    null,
+    { createPost }
+  )(NewPost)
+);
