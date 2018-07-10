@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
@@ -21,7 +21,7 @@ const styles = () => ({
     position: 'fixed'
   }
 });
-class NewPost extends React.Component {
+class NewPost extends Component {
   state = {
     isDialogOpened: false,
     title: '',
@@ -50,7 +50,6 @@ class NewPost extends React.Component {
   };
 
   handleInputChange = event => {
-    console.log('teste');
     const target = event.target;
     const value = target.value;
     const name = target.name;

@@ -4,6 +4,7 @@ import Post from '../components/Post';
 import { getSinglePost } from '../actions/posts';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
+import Typography from '@material-ui/core/Typography';
 class SinglePost extends Component {
   componentDidMount() {
     const { match, getSinglePost } = this.props;
@@ -14,7 +15,11 @@ class SinglePost extends Component {
     return (
       <div>
         <Header />
-        {this.props.post ? <Post post={this.props.post} /> : <div>Post not found</div>}
+        {this.props.post ? (
+          <Post post={this.props.post} />
+        ) : (
+          <Typography variant="title">Post not found!</Typography>
+        )}
       </div>
     );
   }

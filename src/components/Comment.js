@@ -30,7 +30,7 @@ const Comment = ({ comment, classes, upVoteComment, downVoteComment, deleteComme
       subheader={comment.voteScore + ' Votes'}
     />
     <CardContent>
-      <Typography paragraph>{comment.body} Votes</Typography>
+      <Typography paragraph>{comment.body}</Typography>
       <IconButton aria-label="Thumbs Up" onClick={() => upVoteComment(comment.id)}>
         <ThumbUp />
       </IconButton>

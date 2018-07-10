@@ -27,6 +27,7 @@ import { upVotePost, downVotePost, deletePost } from '../actions/posts';
 import { getComments } from '../actions/comments';
 import { NavLink } from 'react-router-dom';
 import Comment from './Comment';
+import NewComment from './NewComment';
 
 const styles = theme => ({
   expand: {
@@ -120,6 +121,7 @@ class Post extends Component {
             </IconButton>
           </CardActions>
           <Collapse in={this.state.expanded} timeout="auto" unmountOnExit>
+            <NewComment parentId={post.id} />
             {comments.length > 0 ? (
               comments
                 .sort((commentA, commentB) => commentB.voteScore - commentA.voteScore)

@@ -59,7 +59,7 @@ export async function deletePost(id) {
 
 export async function createPost({ title, body, author, category }) {
   const bodyForm = {
-    id: Date.now(),
+    id: Date.now().toString(),
     timestamp: Date.now(),
     title,
     body,
@@ -67,6 +67,21 @@ export async function createPost({ title, body, author, category }) {
     category
   };
   const response = await fetch(`${URL}/posts`, {
+    body: JSON.stringify(bodyForm),
+    ...POST
+  });
+  return response.json();
+}
+
+export async function createComment({ body, author, parentId }) {
+  const bodyForm = {
+    id: Date.now().toString(),
+    timestamp: Date.now(),
+    body,
+    author,
+    parentId
+  };
+  const response = await fetch(`${URL}/comments`, {
     body: JSON.stringify(bodyForm),
     ...POST
   });
