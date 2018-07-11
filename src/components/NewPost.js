@@ -87,6 +87,7 @@ class NewPost extends Component {
               label="Title"
               fullWidth
               required
+              margin="normal"
               value={this.state.title}
               onChange={this.handleInputChange}
             />
@@ -96,6 +97,9 @@ class NewPost extends Component {
               label="Body"
               fullWidth
               required
+              multiline
+              rowsMax="4"
+              margin="normal"
               value={this.state.body}
               onChange={this.handleInputChange}
             />
@@ -105,6 +109,7 @@ class NewPost extends Component {
               label="Author"
               fullWidth
               required
+              margin="normal"
               value={this.state.author}
               onChange={this.handleInputChange}
             />
@@ -115,6 +120,7 @@ class NewPost extends Component {
               select
               required
               fullWidth
+              margin="normal"
               value={this.state.category}
               onChange={this.handleInputChange}
             >

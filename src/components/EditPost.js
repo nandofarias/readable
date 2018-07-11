@@ -3,11 +3,20 @@ import { connect } from 'react-redux';
 import { editPost } from '../actions/posts';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
+import Card from '@material-ui/core/Card';
+import CardContent from '@material-ui/core/CardContent';
+import { withStyles } from '@material-ui/core/styles';
+
+const styles = {
+  button: {
+    margin: '10px 10px 0 0'
+  }
+};
 
 class EditPost extends Component {
   state = {
-    title: '',
-    body: ''
+    title: this.props.post.title,
+    body: this.props.post.body
   };
 
   handleSubmitForm = event => {
@@ -29,39 +38,54 @@ class EditPost extends Component {
     });
   };
   render() {
+    const { classes } = this.props;
     return (
-      <form onSubmit={this.handleSubmitForm}>
-        <TextField
-          autoFocus
-          id="title"
-          name="title"
-          label="Title"
-          fullWidth
-          required
-          value={this.state.title}
-          onChange={this.handleInputChange}
-        />
-        <TextField
-          id="body"
-          name="body"
-          label="Body"
-          fullWidth
-          required
-          value={this.state.body}
-          onChange={this.handleInputChange}
-        />
-        <Button variant="outlined" onClick={this.props.didFinishedEditing} color="primary">
-          Cancel
-        </Button>
-        <Button variant="contained" type="submit" color="primary">
-          Change
-        </Button>
-      </form>
+      <Card>
+        <CardContent>
+          <form onSubmit={this.handleSubmitForm}>
+            <TextField
+              autoFocus
+              id="title"
+              name="title"
+              label="Title"
+              fullWidth
+              required
+              value={this.state.title}
+              onChange={this.handleInputChange}
+            />
+            <TextField
+              id="body"
+              name="body"
+              label="Body"
+              fullWidth
+              required
+              multiline
+              rowsMax="4"
+              margin="normal"
+              value={this.state.body}
+              onChange={this.handleInputChange}
+            />
+            <Button
+              variant="outlined"
+              onClick={this.props.didFinishedEditing}
+              color="primary"
+              className={classes.button}
+            >
+              Cancel
+            </Button>
+            <Button variant="contained" type="submit" color="primary" className={classes.button}>
+              Change
+            </Button>
+          </form>
+        </CardContent>
+      </Card>
     );
   }
 }
 
-export default connect(
-  null,
-  { editPost }
-)(EditPost);
+export default withStyles(styles)(
+  connect(
+    null,
+    { editPost }
+  )(EditPost)
+);

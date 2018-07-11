@@ -3,10 +3,22 @@ import { connect } from 'react-redux';
 import { editComment } from '../actions/comments';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
+import Card from '@material-ui/core/Card';
+import CardContent from '@material-ui/core/CardContent';
+import { withStyles } from '@material-ui/core/styles';
 
+const styles = {
+  container: {
+    borderLeft: '5px solid rgba(0, 0, 0, 0.12)',
+    margin: '0px 15px'
+  },
+  button: {
+    margin: '10px 10px 0 0'
+  }
+};
 class EditComment extends Component {
   state = {
-    body: ''
+    body: this.props.comment.body
   };
 
   handleSubmitForm = event => {
@@ -28,29 +40,44 @@ class EditComment extends Component {
     });
   };
   render() {
+    const { classes } = this.props;
     return (
-      <form onSubmit={this.handleSubmitForm}>
-        <TextField
-          id="body"
-          name="body"
-          label="Body"
-          fullWidth
-          required
-          value={this.state.body}
-          onChange={this.handleInputChange}
-        />
-        <Button variant="outlined" onClick={this.props.didFinishedEditing} color="primary">
-          Cancel
-        </Button>
-        <Button variant="contained" type="submit" color="primary">
-          Change
-        </Button>
-      </form>
+      <Card className={classes.container}>
+        <CardContent>
+          <form onSubmit={this.handleSubmitForm}>
+            <TextField
+              id="body"
+              name="body"
+              label="Body"
+              fullWidth
+              required
+              multiline
+              rowsMax="4"
+              margin="normal"
+              value={this.state.body}
+              onChange={this.handleInputChange}
+            />
+            <Button
+              variant="outlined"
+              onClick={this.props.didFinishedEditing}
+              color="primary"
+              className={classes.button}
+            >
+              Cancel
+            </Button>
+            <Button variant="contained" type="submit" color="primary" className={classes.button}>
+              Change
+            </Button>
+          </form>
+        </CardContent>
+      </Card>
     );
   }
 }
 
-export default connect(
-  null,
-  { editComment }
-)(EditComment);
+export default withStyles(styles)(
+  connect(
+    null,
+    { editComment }
+  )(EditComment)
+);

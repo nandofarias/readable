@@ -6,7 +6,6 @@ import { createComment } from '../actions/comments';
 import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Card from '@material-ui/core/Card';
-import CardHeader from '@material-ui/core/CardHeader';
 import CardContent from '@material-ui/core/CardContent';
 
 const styles = {
@@ -74,7 +73,7 @@ class NewComment extends Component {
               value={this.state.body}
               onChange={this.handleInputChange}
             />
-            <Button variant="contained" type="submit" color="primary">
+            <Button variant="contained" type="submit" color="primary" className={classes.submitBtn}>
               Create
             </Button>
           </form>
