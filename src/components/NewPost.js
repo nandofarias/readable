@@ -7,6 +7,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import AddIcon from '@material-ui/icons/Add';
+import MenuItem from '@material-ui/core/MenuItem';
 import { withStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
 import { createPost } from '../actions/posts';
@@ -111,11 +112,18 @@ class NewPost extends Component {
               id="category"
               name="category"
               label="Category"
-              fullWidth
+              select
               required
+              fullWidth
               value={this.state.category}
               onChange={this.handleInputChange}
-            />
+            >
+              {this.props.categories.map(category => (
+                <MenuItem key={category.path} value={category.path}>
+                  {category.name}
+                </MenuItem>
+              ))}
+            </TextField>
           </DialogContent>
           <DialogActions>
             <Button variant="outlined" onClick={this.handleClose} color="primary">
@@ -131,9 +139,15 @@ class NewPost extends Component {
   }
 }
 
+function mapStateToProps(state) {
+  return {
+    categories: state.categories
+  };
+}
+
 export default withStyles(styles)(
   connect(
-    null,
+    mapStateToProps,
     { createPost }
   )(NewPost)
 );
