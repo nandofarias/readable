@@ -30,6 +30,11 @@ class NewPost extends Component {
     author: '',
     category: ''
   };
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      category: nextProps.categories[0].path
+    });
+  }
 
   handleClickOpen = () => {
     this.setState({ isDialogOpened: true });
@@ -39,7 +44,7 @@ class NewPost extends Component {
     this.setState({ isDialogOpened: false });
   };
 
-  handleSubmitForm = () => {
+  handleSubmitForm = event => {
     this.props.createPost(this.state);
     this.setState({
       title: '',
@@ -48,6 +53,7 @@ class NewPost extends Component {
       category: '',
       isDialogOpened: false
     });
+    event.preventDefault();
   };
 
   handleInputChange = event => {
@@ -62,7 +68,7 @@ class NewPost extends Component {
 
   render() {
     return (
-      <form onSubmit={this.handleSubmitForm}>
+      <div>
         <Button
           variant="fab"
           className={this.props.classes.floatingButton}
@@ -77,70 +83,72 @@ class NewPost extends Component {
           onClose={this.handleClose}
           aria-labelledby="new-post-dialog-title"
         >
-          <DialogTitle id="new-post-dialog-title">New Post</DialogTitle>
-          <DialogContent>
-            <DialogContentText>Create a new post to your audience.</DialogContentText>
-            <TextField
-              autoFocus
-              id="title"
-              name="title"
-              label="Title"
-              fullWidth
-              required
-              margin="normal"
-              value={this.state.title}
-              onChange={this.handleInputChange}
-            />
-            <TextField
-              id="body"
-              name="body"
-              label="Body"
-              fullWidth
-              required
-              multiline
-              rowsMax="4"
-              margin="normal"
-              value={this.state.body}
-              onChange={this.handleInputChange}
-            />
-            <TextField
-              id="author"
-              name="author"
-              label="Author"
-              fullWidth
-              required
-              margin="normal"
-              value={this.state.author}
-              onChange={this.handleInputChange}
-            />
-            <TextField
-              id="category"
-              name="category"
-              label="Category"
-              select
-              required
-              fullWidth
-              margin="normal"
-              value={this.state.category}
-              onChange={this.handleInputChange}
-            >
-              {this.props.categories.map(category => (
-                <MenuItem key={category.path} value={category.path}>
-                  {category.name}
-                </MenuItem>
-              ))}
-            </TextField>
-          </DialogContent>
-          <DialogActions>
-            <Button variant="outlined" onClick={this.handleClose} color="primary">
-              Cancel
-            </Button>
-            <Button variant="contained" onClick={this.handleSubmitForm} color="primary">
-              Create
-            </Button>
-          </DialogActions>
+          <form onSubmit={this.handleSubmitForm}>
+            <DialogTitle id="new-post-dialog-title">New Post</DialogTitle>
+            <DialogContent>
+              <DialogContentText>Create a new post to your audience.</DialogContentText>
+              <TextField
+                autoFocus
+                id="title"
+                name="title"
+                label="Title"
+                fullWidth
+                required
+                margin="normal"
+                value={this.state.title}
+                onChange={this.handleInputChange}
+              />
+              <TextField
+                id="body"
+                name="body"
+                label="Body"
+                fullWidth
+                required
+                multiline
+                rowsMax="4"
+                margin="normal"
+                value={this.state.body}
+                onChange={this.handleInputChange}
+              />
+              <TextField
+                id="author"
+                name="author"
+                label="Author"
+                fullWidth
+                required
+                margin="normal"
+                value={this.state.author}
+                onChange={this.handleInputChange}
+              />
+              <TextField
+                id="category"
+                name="category"
+                label="Category"
+                select
+                required
+                fullWidth
+                margin="normal"
+                value={this.state.category}
+                onChange={this.handleInputChange}
+              >
+                {this.props.categories.map(category => (
+                  <MenuItem key={category.path} value={category.path}>
+                    {category.name}
+                  </MenuItem>
+                ))}
+              </TextField>
+            </DialogContent>
+            <DialogActions>
+              <Button variant="outlined" onClick={this.handleClose} color="primary">
+                Cancel
+              </Button>
+              <Button variant="contained" type="submit" color="primary">
+                Create
+              </Button>
+            </DialogActions>
+          </form>
         </Dialog>
-      </form>
+      </div>
     );
   }
 }
