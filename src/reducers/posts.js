@@ -7,6 +7,8 @@ import {
   RECEIVE_UPDATED_POST
 } from '../actions/posts';
 
+import { RECEIVE_NEW_COMMENT, RECEIVE_DELETED_COMMENT } from '../actions/comments';
+
 export default (state = [], action) => {
   switch (action.type) {
     case RECEIVE_POSTS:
@@ -19,6 +21,20 @@ export default (state = [], action) => {
       return state.filter(post => post.id !== action.post.id);
     case RECEIVE_NEW_POST:
       return [...state, action.post];
+    case RECEIVE_NEW_COMMENT:
+      return state.map(
+        post =>
+          post.id === action.comment.parentId
+            ? { ...post, commentCount: post.commentCount + 1 }
+            : post
+      );
+    case RECEIVE_DELETED_COMMENT:
+      return state.map(
+        post =>
+          post.id === action.comment.parentId
+            ? { ...post, commentCount: post.commentCount - 1 }
+            : post
+      );
     default:
       return state;
   }

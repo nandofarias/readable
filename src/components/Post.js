@@ -50,10 +50,6 @@ const styles = theme => ({
 class Post extends Component {
   state = { expanded: false, anchorMenu: null, editable: false };
 
-  componentDidMount() {
-    this.props.getComments(this.props.post.id);
-  }
-
   handleExpandClick = postId => {
     if (!this.state.expanded) {
       this.props.getComments(postId);
@@ -114,7 +110,7 @@ class Post extends Component {
               <ThumbDown />
             </IconButton>
             <Button color="inherit" onClick={() => this.handleExpandClick(post.id)}>
-              {comments.length} Comments
+              {post.commentCount} Comments
             </Button>
             <IconButton
               className={this.state.expanded ? classes.expandOpen : classes.expand}
