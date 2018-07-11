@@ -28,6 +28,7 @@ import { getComments } from '../actions/comments';
 import { NavLink } from 'react-router-dom';
 import Comment from './Comment';
 import NewComment from './NewComment';
+import EditPost from './EditPost';
 
 const styles = theme => ({
   expand: {
@@ -47,7 +48,7 @@ const styles = theme => ({
   linkMenu: { textDecoration: 'none', display: 'block' }
 });
 class Post extends Component {
-  state = { expanded: false, anchorMenu: null };
+  state = { expanded: false, anchorMenu: null, editable: false };
 
   componentDidMount() {
     this.props.getComments(this.props.post.id);
@@ -67,7 +68,11 @@ class Post extends Component {
   handleMenuClose = () => {
     this.setState({ anchorMenu: null });
   };
-  render() {
+
+  handleEditPost = editable => {
+    this.setState({ editable, anchorMenu: false });
+  };
+  renderPost() {
     const { post, comments, classes, upVotePost, downVotePost, deletePost } = this.props;
     return (
       <div>
@@ -147,7 +152,7 @@ class Post extends Component {
             }
           }}
         >
-          <MenuItem onClick={this.handleMenuClose}>
+          <MenuItem onClick={() => this.handleEditPost(true)}>
             <ListItemIcon>
               <EditIcon />
             </ListItemIcon>
@@ -169,6 +174,14 @@ class Post extends Component {
           </NavLink>
         </Menu>
       </div>
+    );
+  }
+
+  render() {
+    return this.state.editable ? (
+      <EditPost post={this.props.post} didFinishedEditing={() => this.handleEditPost(false)} />
+    ) : (
+      this.renderPost()
     );
   }
 }

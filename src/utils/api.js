@@ -3,7 +3,7 @@ const URL = 'http://localhost:3001';
 const options = { headers: headers, mode: 'cors' };
 const GET = { method: 'GET', ...options };
 const POST = { method: 'POST', ...options };
-// const PUT = { method: 'PUT', ...options };
+const PUT = { method: 'PUT', ...options };
 const DELETE = { method: 'DELETE', ...options };
 
 export async function getCategories() {
@@ -84,6 +84,24 @@ export async function createComment({ body, author, parentId }) {
   const response = await fetch(`${URL}/comments`, {
     body: JSON.stringify(bodyForm),
     ...POST
+  });
+  return response.json();
+}
+
+export async function editPost({ id, title, body }) {
+  const bodyForm = { title, body };
+  const response = await fetch(`${URL}/posts/${id}`, {
+    body: JSON.stringify(bodyForm),
+    ...PUT
+  });
+  return response.json();
+}
+
+export async function editComment({ id, body }) {
+  const bodyForm = { timestamp: Date.now(), body };
+  const response = await fetch(`${URL}/comments/${id}`, {
+    body: JSON.stringify(bodyForm),
+    ...PUT
   });
   return response.json();
 }

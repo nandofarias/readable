@@ -3,7 +3,8 @@ export const RECEIVE_POSTS = 'RECEIVE_POSTS';
 export const RECEIVE_POST_UP_VOTE = 'RECEIVE_POST_UP_VOTE';
 export const RECEIVE_POST_DOWN_VOTE = 'RECEIVE_POST_DOWN_VOTE';
 export const RECEIVE_DELETED_POST = 'RECEIVE_DELETE_POST';
-export const RECEIVE_POST = 'RECEIVE_POST';
+export const RECEIVE_NEW_POST = 'RECEIVE_NEW_POST';
+export const RECEIVE_UPDATED_POST = 'RECEIVE_UPDATED_POST';
 
 const receivePosts = posts => ({
   type: RECEIVE_POSTS,
@@ -25,8 +26,13 @@ const receiveDeletedPost = post => ({
   post
 });
 
-const receivePost = post => ({
-  type: RECEIVE_POST,
+const receiveNewPost = post => ({
+  type: RECEIVE_NEW_POST,
+  post
+});
+
+const receiveUpdatedPost = post => ({
+  type: RECEIVE_UPDATED_POST,
   post
 });
 
@@ -62,5 +68,10 @@ export const deletePost = id => async dispatch => {
 
 export const createPost = postForm => async dispatch => {
   const post = await api.createPost(postForm);
-  return dispatch(receivePost(post));
+  return dispatch(receiveNewPost(post));
+};
+
+export const editPost = postForm => async dispatch => {
+  const post = await api.editPost(postForm);
+  return dispatch(receiveUpdatedPost(post));
 };

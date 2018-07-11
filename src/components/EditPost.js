@@ -1,25 +1,22 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { editPost } from '../actions/posts';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
-import { createComment } from '../actions/comments';
 
-class NewComment extends Component {
+class EditPost extends Component {
   state = {
-    author: '',
+    title: '',
     body: ''
   };
 
   handleSubmitForm = event => {
-    this.props.createComment({
-      parentId: this.props.parentId,
+    this.props.editPost({
+      id: this.props.post.id,
       ...this.state
     });
-    this.setState({
-      body: '',
-      author: ''
-    });
     event.preventDefault();
+    this.props.didFinishedEditing();
   };
 
   handleInputChange = event => {
@@ -31,17 +28,17 @@ class NewComment extends Component {
       [name]: value
     });
   };
-
   render() {
     return (
       <form onSubmit={this.handleSubmitForm}>
         <TextField
-          id="author"
-          name="author"
-          label="Author"
+          autoFocus
+          id="title"
+          name="title"
+          label="Title"
           fullWidth
           required
-          value={this.state.author}
+          value={this.state.title}
           onChange={this.handleInputChange}
         />
         <TextField
@@ -53,8 +50,11 @@ class NewComment extends Component {
           value={this.state.body}
           onChange={this.handleInputChange}
         />
+        <Button variant="outlined" onClick={this.props.didFinishedEditing} color="primary">
+          Cancel
+        </Button>
         <Button variant="contained" type="submit" color="primary">
-          Create
+          Change
         </Button>
       </form>
     );
@@ -63,5 +63,5 @@ class NewComment extends Component {
 
 export default connect(
   null,
-  { createComment }
-)(NewComment);
+  { editPost }
+)(EditPost);

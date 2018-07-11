@@ -4,7 +4,8 @@ export const RECEIVE_COMMENTS = 'RECEIVE_COMMENTS';
 export const RECEIVE_COMMENT_UP_VOTE = 'RECEIVE_COMMENT_UP_VOTE';
 export const RECEIVE_COMMENT_DOWN_VOTE = 'RECEIVE_COMMENT_DOWN_VOTE';
 export const RECEIVE_DELETED_COMMENT = 'RECEIVE_DELETE_COMMENT';
-export const RECEIVE_COMMENT = 'RECEIVE_COMMENT';
+export const RECEIVE_NEW_COMMENT = 'RECEIVE_NEW_COMMENT';
+export const RECEIVE_UPDATED_COMMENT = 'RECEIVE_UPDATED_COMMENT';
 
 const receiveComments = comments => ({
   type: RECEIVE_COMMENTS,
@@ -26,8 +27,13 @@ const receiveDeletedComment = comment => ({
   comment
 });
 
-const receiveComment = comment => ({
-  type: RECEIVE_COMMENT,
+const receiveNewComment = comment => ({
+  type: RECEIVE_NEW_COMMENT,
+  comment
+});
+
+const receiveUpdatedComment = comment => ({
+  type: RECEIVE_UPDATED_COMMENT,
   comment
 });
 
@@ -53,5 +59,10 @@ export const deleteComment = id => async dispatch => {
 
 export const createComment = commentForm => async dispatch => {
   const comment = await api.createComment(commentForm);
-  return dispatch(receiveComment(comment));
+  return dispatch(receiveNewComment(comment));
+};
+
+export const editComment = commentForm => async dispatch => {
+  const comment = await api.editComment(commentForm);
+  return dispatch(receiveUpdatedComment(comment));
 };
