@@ -1,3 +1,4 @@
+const uuidv4 = require('uuid/v4');
 const headers = new Headers({ Authorization: '123', 'content-type': 'application/json' });
 const URL = 'http://localhost:3001';
 const options = { headers: headers, mode: 'cors' };
@@ -59,7 +60,7 @@ export async function deletePost(id) {
 
 export async function createPost({ title, body, author, category }) {
   const bodyForm = {
-    id: Date.now().toString(),
+    id: uuidv4(),
     timestamp: Date.now(),
     title,
     body,
@@ -75,7 +76,7 @@ export async function createPost({ title, body, author, category }) {
 
 export async function createComment({ body, author, parentId }) {
   const bodyForm = {
-    id: Date.now().toString(),
+    id: uuidv4(),
     timestamp: Date.now(),
     body,
     author,
@@ -102,6 +103,14 @@ export async function editComment({ id, body }) {
   const response = await fetch(`${URL}/comments/${id}`, {
     body: JSON.stringify(bodyForm),
     ...PUT
+  });
+  return response.json();
+}
+
+export async function login(userForm) {
+  const response = await fetch(`${URL}/login`, {
+    body: JSON.stringify(userForm),
+    ...POST
   });
   return response.json();
 }

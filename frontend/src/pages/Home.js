@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import Header from '../components/Header';
 import ListPosts from '../components/ListPosts';
 import NewPost from '../components/NewPost';
 import { getAllPosts, getCategoryPosts } from '../actions/posts';
