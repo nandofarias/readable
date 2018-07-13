@@ -8,6 +8,8 @@ import thunk from 'redux-thunk';
 import reducer from './reducers';
 import { Provider } from 'react-redux';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import NoMatch from './pages/NoMatch';
+import Header from './components/Header';
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
@@ -16,10 +18,14 @@ const store = createStore(reducer, composeEnhancers(applyMiddleware(thunk)));
 ReactDOM.render(
   <Provider store={store}>
     <Router>
-      <Switch>
-        <Route path="/:category/:postId" component={SinglePost} />
-        <Route path="/:category?" component={Home} />
-      </Switch>
+      <div>
+        <Header />
+        <Switch>
+          <Route path="/:category/:postId" component={SinglePost} />
+          <Route path="/:category?" component={Home} />
+          <Route component={NoMatch} />
+        </Switch>
+      </div>
     </Router>
   </Provider>,
   document.getElementById('root')

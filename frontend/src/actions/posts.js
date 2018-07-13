@@ -5,6 +5,7 @@ export const RECEIVE_POST_DOWN_VOTE = 'RECEIVE_POST_DOWN_VOTE';
 export const RECEIVE_DELETED_POST = 'RECEIVE_DELETE_POST';
 export const RECEIVE_NEW_POST = 'RECEIVE_NEW_POST';
 export const RECEIVE_UPDATED_POST = 'RECEIVE_UPDATED_POST';
+export const RECEIVE_SINGLE_POST = 'RECEIVE_SINGLE_POST';
 
 const receivePosts = posts => ({
   type: RECEIVE_POSTS,
@@ -36,6 +37,11 @@ const receiveUpdatedPost = post => ({
   post
 });
 
+const receiveSinglePost = post => ({
+  type: RECEIVE_SINGLE_POST,
+  post
+});
+
 export const getCategoryPosts = category => async dispatch => {
   const posts = await api.getCategoriesPosts(category);
   return dispatch(receivePosts(posts));
@@ -48,7 +54,7 @@ export const getAllPosts = () => async dispatch => {
 
 export const getSinglePost = postId => async dispatch => {
   const post = await api.getSinglePost(postId);
-  return post.error ? dispatch(receivePosts([])) : dispatch(receivePosts([post]));
+  return dispatch(receiveSinglePost(post));
 };
 
 export const upVotePost = id => async dispatch => {

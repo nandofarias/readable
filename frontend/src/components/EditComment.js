@@ -30,11 +30,7 @@ class EditComment extends Component {
     this.props.didFinishedEditing();
   };
 
-  handleInputChange = event => {
-    const target = event.target;
-    const value = target.value;
-    const name = target.name;
-
+  handleInputChange = ({ target: { name, value } }) => {
     this.setState({
       [name]: value
     });

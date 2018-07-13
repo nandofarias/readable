@@ -36,16 +36,11 @@ class NewComment extends Component {
     event.preventDefault();
   };
 
-  handleInputChange = event => {
-    const target = event.target;
-    const value = target.value;
-    const name = target.name;
-
+  handleInputChange = ({ target: { name, value } }) => {
     this.setState({
       [name]: value
     });
   };
-
   render() {
     const { classes } = this.props;
     return (

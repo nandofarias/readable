@@ -3,7 +3,6 @@ import Header from '../components/Header';
 import ListPosts from '../components/ListPosts';
 import NewPost from '../components/NewPost';
 import { getAllPosts, getCategoryPosts } from '../actions/posts';
-import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 class Home extends Component {
   componentDidMount() {
@@ -18,7 +17,6 @@ class Home extends Component {
   render() {
     return (
       <div>
-        <Header />
         <ListPosts />
         <NewPost />
       </div>
@@ -29,4 +27,4 @@ class Home extends Component {
 export default connect(
   null,
   { getCategoryPosts, getAllPosts }
-)(withRouter(Home));
+)(Home);

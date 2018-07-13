@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Post from './Post';
-import Typography from '@material-ui/core/Typography';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
 import { withStyles } from '@material-ui/core/styles';
+import Placeholder from './Placeholder';
 
 const styles = {
   orderBy: {
@@ -39,11 +39,6 @@ class ListPosts extends Component {
     );
   };
 
-  renderNotFound = () => (
-    <Typography variant="title" className={this.props.classes.placeholder}>
-      No posts found!
-    </Typography>
-  );
   render() {
     const { classes } = this.props;
     return (
@@ -55,14 +50,16 @@ class ListPosts extends Component {
             <MenuItem value="by-date">Date</MenuItem>
           </Select>
         </FormControl>
-        {this.props.posts.length > 0 ? this.renderPosts() : this.renderNotFound()}
+        {this.props.posts.length > 0 ? (
+          this.renderPosts()
+        ) : (
+          <Placeholder text="No posts found :(" icon="forum" />
+        )}
       </div>
     );
   }
 }
 
-const mapStateToProps = state => ({
-  posts: state.posts
-});
+const mapStateToProps = ({ posts }) => ({ posts });
 
 export default withStyles(styles)(connect(mapStateToProps)(ListPosts));

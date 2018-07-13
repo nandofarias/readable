@@ -29,6 +29,9 @@ import { NavLink } from 'react-router-dom';
 import Comment from './Comment';
 import NewComment from './NewComment';
 import EditPost from './EditPost';
+import Placeholder from './Placeholder';
+import { withRouter } from 'react-router-dom';
+import { compose } from 'redux';
 
 const styles = theme => ({
   expand: {
@@ -68,8 +71,14 @@ class Post extends Component {
   handleEditPost = editable => {
     this.setState({ editable, anchorMenu: false });
   };
+
+  handleDeletePost = () => {
+    const { deletePost, post, location, history } = this.props;
+    if (location.pathname === `/${post.category}/${post.id}`) history.push('/');
+    deletePost(post.id);
+  };
   renderPost() {
-    const { post, comments, classes, upVotePost, downVotePost, deletePost } = this.props;
+    const { post, comments, classes, upVotePost, downVotePost } = this.props;
     return (
       <div>
         <Card>
@@ -128,11 +137,7 @@ class Post extends Component {
                 .sort((commentA, commentB) => commentB.voteScore - commentA.voteScore)
                 .map(comment => <Comment key={comment.id} comment={comment} />)
             ) : (
-              <CardContent>
-                <Typography paragraph variant="body2">
-                  No comments found!
-                </Typography>
-              </CardContent>
+              <Placeholder text="No comments found :(" icon="textsms" />
             )}
           </Collapse>
         </Card>
@@ -154,7 +159,7 @@ class Post extends Component {
             </ListItemIcon>
             <ListItemText primary="Edit" />
           </MenuItem>
-          <MenuItem onClick={() => deletePost(post.id)}>
+          <MenuItem onClick={this.handleDeletePost}>
             <ListItemIcon>
               <DeleteForeverIcon />
             </ListItemIcon>
@@ -182,15 +187,13 @@ class Post extends Component {
   }
 }
 
-function mapStateToProps(state, props) {
-  return {
-    comments: state.comments[props.post.id] || []
-  };
-}
+const mapStateToProps = ({ comments }, { post }) => ({ comments: comments[post.id] || [] });
 
-export default withStyles(styles)(
+export default compose(
+  withRouter,
+  withStyles(styles),
   connect(
     mapStateToProps,
     { upVotePost, downVotePost, getComments, deletePost }
-  )(Post)
-);
+  )
+)(Post);

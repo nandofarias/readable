@@ -4,7 +4,8 @@ import {
   RECEIVE_POST_DOWN_VOTE,
   RECEIVE_DELETED_POST,
   RECEIVE_NEW_POST,
-  RECEIVE_UPDATED_POST
+  RECEIVE_UPDATED_POST,
+  RECEIVE_SINGLE_POST
 } from '../actions/posts';
 
 import { RECEIVE_NEW_COMMENT, RECEIVE_DELETED_COMMENT } from '../actions/comments';
@@ -12,7 +13,7 @@ import { RECEIVE_NEW_COMMENT, RECEIVE_DELETED_COMMENT } from '../actions/comment
 export default (state = [], action) => {
   switch (action.type) {
     case RECEIVE_POSTS:
-      return action.posts.filter(post => !post.deleted);
+      return action.posts;
     case RECEIVE_POST_UP_VOTE:
     case RECEIVE_POST_DOWN_VOTE:
     case RECEIVE_UPDATED_POST:
@@ -35,6 +36,8 @@ export default (state = [], action) => {
             ? { ...post, commentCount: post.commentCount - 1 }
             : post
       );
+    case RECEIVE_SINGLE_POST:
+      return action.post.error || Object.keys(action.post).length === 0 ? [] : [action.post];
     default:
       return state;
   }

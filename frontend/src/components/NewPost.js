@@ -56,11 +56,7 @@ class NewPost extends Component {
     event.preventDefault();
   };
 
-  handleInputChange = event => {
-    const target = event.target;
-    const value = target.value;
-    const name = target.name;
-
+  handleInputChange = ({ target: { name, value } }) => {
     this.setState({
       [name]: value
     });
@@ -153,11 +149,7 @@ class NewPost extends Component {
   }
 }
 
-function mapStateToProps(state) {
-  return {
-    categories: state.categories
-  };
-}
+const mapStateToProps = ({ categories }) => ({ categories });
 
 export default withStyles(styles)(
   connect(
