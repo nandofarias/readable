@@ -17,13 +17,15 @@ class Home extends Component {
     return (
       <div>
         <ListPosts />
-        <NewPost />
+        {this.props.isUserLoggedIn && <NewPost />}
       </div>
     );
   }
 }
 
+const mapStateToProps = ({ user }) => ({ isUserLoggedIn: user.isLoggedIn });
+
 export default connect(
-  null,
+  mapStateToProps,
   { getCategoryPosts, getAllPosts }
 )(Home);

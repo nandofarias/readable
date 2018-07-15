@@ -27,7 +27,6 @@ class NewPost extends Component {
     isDialogOpened: false,
     title: '',
     body: '',
-    author: '',
     category: ''
   };
   componentWillReceiveProps(nextProps) {
@@ -45,11 +44,10 @@ class NewPost extends Component {
   };
 
   handleSubmitForm = event => {
-    this.props.createPost(this.state);
+    this.props.createPost({ author: this.props.author, ...this.state });
     this.setState({
       title: '',
       body: '',
-      author: '',
       category: '',
       isDialogOpened: false
     });
@@ -107,16 +105,6 @@ class NewPost extends Component {
                 onChange={this.handleInputChange}
               />
               <TextField
-                id="author"
-                name="author"
-                label="Author"
-                fullWidth
-                required
-                margin="normal"
-                value={this.state.author}
-                onChange={this.handleInputChange}
-              />
-              <TextField
                 id="category"
                 name="category"
                 label="Category"
@@ -149,7 +137,7 @@ class NewPost extends Component {
   }
 }
 
-const mapStateToProps = ({ categories }) => ({ categories });
+const mapStateToProps = ({ categories, user }) => ({ categories, author: user.username });
 
 export default withStyles(styles)(
   connect(

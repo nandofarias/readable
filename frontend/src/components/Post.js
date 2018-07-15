@@ -25,13 +25,13 @@ import red from '@material-ui/core/colors/red';
 import { formatRelative, subDays } from 'date-fns';
 import { upVotePost, downVotePost, deletePost } from '../actions/posts';
 import { getComments } from '../actions/comments';
-import { NavLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import Comment from './Comment';
 import NewComment from './NewComment';
 import EditPost from './EditPost';
-import Placeholder from './Placeholder';
 import { withRouter } from 'react-router-dom';
 import { compose } from 'redux';
+import Snackbar from '@material-ui/core/Snackbar';
 
 const styles = theme => ({
   expand: {
@@ -48,10 +48,12 @@ const styles = theme => ({
   avatar: {
     backgroundColor: red[500]
   },
-  linkMenu: { textDecoration: 'none', display: 'block' }
+  linkMenu: { textDecoration: 'none', display: 'block' },
+  centerText: { textAlign: 'center', margin: '30px 0' },
+  lightLink: { color: 'green' }
 });
 class Post extends Component {
-  state = { expanded: false, anchorMenu: null, editable: false };
+  state = { expanded: false, anchorMenu: null, editable: false, openSnackbar: false };
 
   handleExpandClick = postId => {
     if (!this.state.expanded) {
@@ -77,8 +79,22 @@ class Post extends Component {
     if (location.pathname === `/${post.category}/${post.id}`) history.push('/');
     deletePost(post.id);
   };
+
+  handleUpVote = () => {
+    const { user, post, upVotePost } = this.props;
+    return user.isLoggedIn ? upVotePost(post.id) : this.setState({ openSnackbar: true });
+  };
+
+  handleDownVote = () => {
+    const { user, post, downVotePost } = this.props;
+    return user.isLoggedIn ? downVotePost(post.id) : this.setState({ openSnackbar: true });
+  };
+
+  handleSnackbarClose = () => {
+    this.setState({ openSnackbar: false });
+  };
   renderPost() {
-    const { post, comments, classes, upVotePost, downVotePost } = this.props;
+    const { post, comments, classes, user } = this.props;
     return (
       <div>
         <Card>
@@ -112,10 +128,10 @@ class Post extends Component {
             <Typography paragraph>{post.body}</Typography>
           </CardContent>
           <CardActions disableActionSpacing>
-            <IconButton aria-label="Thumbs Up" onClick={() => upVotePost(post.id)}>
+            <IconButton aria-label="Thumbs Up" onClick={this.handleUpVote}>
               <ThumbUp />
             </IconButton>
-            <IconButton aria-label="Thumbs Down" onClick={() => downVotePost(post.id)}>
+            <IconButton aria-label="Thumbs Down" onClick={this.handleDownVote}>
               <ThumbDown />
             </IconButton>
             <Button color="inherit" onClick={() => this.handleExpandClick(post.id)}>
@@ -131,13 +147,23 @@ class Post extends Component {
             </IconButton>
           </CardActions>
           <Collapse in={this.state.expanded} timeout="auto" unmountOnExit>
-            <NewComment parentId={post.id} />
-            {comments.length > 0 ? (
-              comments
-                .sort((commentA, commentB) => commentB.voteScore - commentA.voteScore)
-                .map(comment => <Comment key={comment.id} comment={comment} />)
+            {user.isLoggedIn ? (
+              <div>
+                <NewComment parentId={post.id} />
+                {comments.length > 0 ? (
+                  comments
+                    .sort((commentA, commentB) => commentB.voteScore - commentA.voteScore)
+                    .map(comment => <Comment key={comment.id} comment={comment} />)
+                ) : (
+                  <Typography className={classes.centerText} variant="body1">
+                    Be the first to comment in this post.
+                  </Typography>
+                )}
+              </div>
             ) : (
-              <Placeholder text="No comments found :(" icon="textsms" />
+              <Typography className={classes.centerText} variant="body1">
+                <Link to="/login">Login</Link> to comment on this post and see the others comments.
+              </Typography>
             )}
           </Collapse>
         </Card>
@@ -153,27 +179,43 @@ class Post extends Component {
             }
           }}
         >
-          <MenuItem onClick={() => this.handleEditPost(true)}>
-            <ListItemIcon>
-              <EditIcon />
-            </ListItemIcon>
-            <ListItemText primary="Edit" />
-          </MenuItem>
-          <MenuItem onClick={this.handleDeletePost}>
-            <ListItemIcon>
-              <DeleteForeverIcon />
-            </ListItemIcon>
-            <ListItemText primary="Delete" />
-          </MenuItem>
-          <NavLink to={`/${post.category}/${post.id}`} className={classes.linkMenu}>
-            <MenuItem onClick={this.handleMenuClose}>
+          {user.username === post.author && (
+            <MenuItem onClick={() => this.handleEditPost(true)}>
               <ListItemIcon>
-                <LaunchIcon />
+                <EditIcon />
               </ListItemIcon>
-              <ListItemText primary="Go to" />
+              <ListItemText primary="Edit" />
             </MenuItem>
-          </NavLink>
+          )}
+          {user.username === post.author && (
+            <MenuItem onClick={this.handleDeletePost}>
+              <ListItemIcon>
+                <DeleteForeverIcon />
+              </ListItemIcon>
+              <ListItemText primary="Delete" />
+            </MenuItem>
+          )}
+          <MenuItem component={Link} to={`/${post.category}/${post.id}`}>
+            <ListItemIcon>
+              <LaunchIcon />
+            </ListItemIcon>
+            <ListItemText primary="Go to" />
+          </MenuItem>
         </Menu>
+        <Snackbar
+          anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+          open={this.state.openSnackbar}
+          onClose={this.handleSnackbarClose}
+          message={
+            <span id="message-must-login">
+              You must{' '}
+              <Link to="/login" className={classes.lightLink}>
+                login
+              </Link>{' '}
+              to perform this action
+            </span>
+          }
+        />
       </div>
     );
   }
@@ -187,7 +229,10 @@ class Post extends Component {
   }
 }
 
-const mapStateToProps = ({ comments }, { post }) => ({ comments: comments[post.id] || [] });
+const mapStateToProps = ({ comments, user }, { post }) => ({
+  user,
+  comments: comments[post.id] || []
+});
 
 export default compose(
   withRouter,

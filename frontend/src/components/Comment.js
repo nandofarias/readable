@@ -43,20 +43,22 @@ class Comment extends Component {
     this.setState({ editable, anchorMenu: false });
   };
   renderComment() {
-    const { comment, classes, upVoteComment, downVoteComment, deleteComment } = this.props;
+    const { comment, classes, upVoteComment, downVoteComment, deleteComment, user } = this.props;
     return (
       <div>
         <Card className={classes.container}>
           <CardHeader
             action={
-              <IconButton
-                aria-label="More"
-                aria-owns={this.state.anchorMenu ? 'comment-menu' : null}
-                aria-haspopup="true"
-                onClick={this.handleMenuOpen}
-              >
-                <MoreVertIcon />
-              </IconButton>
+              user.username === comment.author && (
+                <IconButton
+                  aria-label="More"
+                  aria-owns={this.state.anchorMenu ? 'comment-menu' : null}
+                  aria-haspopup="true"
+                  onClick={this.handleMenuOpen}
+                >
+                  <MoreVertIcon />
+                </IconButton>
+              )
             }
             title={comment.author}
             subheader={comment.voteScore + ' Votes'}
@@ -112,9 +114,11 @@ class Comment extends Component {
   }
 }
 
+const mapStateToProps = ({ user }) => ({ user });
+
 export default withStyles(styles)(
   connect(
-    null,
+    mapStateToProps,
     { upVoteComment, downVoteComment, deleteComment }
   )(Comment)
 );

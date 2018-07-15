@@ -1,5 +1,7 @@
 const uuidv4 = require('uuid/v4');
-const headers = new Headers({ Authorization: '123', 'content-type': 'application/json' });
+
+// Using a static token to not lose data when change user
+const headers = new Headers({ Authorization: 'auth_token', 'content-type': 'application/json' });
 const URL = 'http://localhost:3001';
 const options = { headers: headers, mode: 'cors' };
 const GET = { method: 'GET', ...options };

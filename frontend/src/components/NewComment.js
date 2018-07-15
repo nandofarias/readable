@@ -20,20 +20,19 @@ const styles = {
 
 class NewComment extends Component {
   state = {
-    author: '',
     body: ''
   };
 
   handleSubmitForm = event => {
+    event.preventDefault();
     this.props.createComment({
       parentId: this.props.parentId,
+      author: this.props.author,
       ...this.state
     });
     this.setState({
-      body: '',
-      author: ''
+      body: ''
     });
-    event.preventDefault();
   };
 
   handleInputChange = ({ target: { name, value } }) => {
@@ -48,14 +47,6 @@ class NewComment extends Component {
         <CardContent>
           <form onSubmit={this.handleSubmitForm} className={classes.form}>
             <Typography variant="body2">Add a new comment:</Typography>
-            <TextField
-              id="author"
-              name="author"
-              label="Author"
-              required
-              value={this.state.author}
-              onChange={this.handleInputChange}
-            />
             <TextField
               id="body"
               name="body"
@@ -78,9 +69,11 @@ class NewComment extends Component {
   }
 }
 
+const mapStateToProps = ({ user }) => ({ author: user.username });
+
 export default withStyles(styles)(
   connect(
-    null,
+    mapStateToProps,
     { createComment }
   )(NewComment)
 );

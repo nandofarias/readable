@@ -1,6 +1,12 @@
 import { RECEIVE_LOGIN, LOGOUT } from '../actions/user';
+import { getUser } from '../utils/storage';
 
-export default (state = { isLoggedIn: false }, action) => {
+function getInitialState() {
+  const user = getUser();
+  return user ? { isLoggedIn: true, ...user } : { isLoggedIn: false };
+}
+
+export default (state = getInitialState(), action) => {
   switch (action.type) {
     case RECEIVE_LOGIN:
       return { isLoggedIn: true, ...action.user };
