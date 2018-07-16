@@ -4,7 +4,8 @@ export const saveUser = user => {
 };
 
 export const getUser = () => {
-  return localStorage.getItem(USER_KEY);
+  const item = localStorage.getItem(USER_KEY);
+  return item ? JSON.parse(item) : null;
 };
 
 export const clearUser = () => {

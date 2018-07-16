@@ -1,13 +1,13 @@
-const uuidv4 = require('uuid/v4');
+import uuidv4 from 'uuid/v4';
 
 // Using a static token to not lose data when change user
-const headers = new Headers({ Authorization: 'auth_token', 'content-type': 'application/json' });
+const headers = { Authorization: 'auth_token', 'content-type': 'application/json' };
 const URL = 'http://localhost:3001';
 const options = { headers: headers, mode: 'cors' };
-const GET = { method: 'GET', ...options };
-const POST = { method: 'POST', ...options };
-const PUT = { method: 'PUT', ...options };
-const DELETE = { method: 'DELETE', ...options };
+export const GET = { method: 'GET', ...options };
+export const POST = { method: 'POST', ...options };
+export const PUT = { method: 'PUT', ...options };
+export const DELETE = { method: 'DELETE', ...options };
 
 export async function getCategories() {
   const response = await fetch(`${URL}/categories`, GET);
@@ -109,9 +109,9 @@ export async function editComment({ id, body }) {
   return response.json();
 }
 
-export async function login(userForm) {
+export async function login({ username, password }) {
   const response = await fetch(`${URL}/login`, {
-    body: JSON.stringify(userForm),
+    body: JSON.stringify({ username, password }),
     ...POST
   });
   return response.json();

@@ -12,7 +12,7 @@ export default (state = {}, action) => {
       return action.comments.length > 0
         ? {
             ...state,
-            [action.comments[0].parentId]: action.comments.filter(comment => !comment.deleted)
+            [action.comments[0].parentId]: action.comments
           }
         : state;
     case RECEIVE_COMMENT_UP_VOTE:
