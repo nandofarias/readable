@@ -33,7 +33,7 @@ import { withRouter } from 'react-router-dom';
 import { compose } from 'redux';
 import Snackbar from '@material-ui/core/Snackbar';
 
-const styles = theme => ({
+export const styles = theme => ({
   expand: {
     transform: 'rotate(0deg)',
     transition: theme.transitions.create('transform', {
@@ -52,7 +52,7 @@ const styles = theme => ({
   centerText: { textAlign: 'center', margin: '30px 0' },
   lightLink: { color: 'green' }
 });
-class Post extends Component {
+export class Post extends Component {
   state = { expanded: false, anchorMenu: null, editable: false, openSnackbar: false };
 
   handleExpandClick = postId => {
@@ -229,7 +229,7 @@ class Post extends Component {
   }
 }
 
-const mapStateToProps = ({ comments, user }, { post }) => ({
+export const mapStateToProps = ({ comments, user }, { post }) => ({
   user,
   comments: comments[post.id] || []
 });

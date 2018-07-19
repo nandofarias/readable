@@ -18,14 +18,14 @@ import { connect } from 'react-redux';
 import { upVoteComment, downVoteComment, deleteComment } from '../actions/comments';
 import EditComment from './EditComment';
 
-const styles = () => ({
+const styles = {
   container: {
     borderLeft: '5px solid rgba(0, 0, 0, 0.12)',
     margin: '0px 15px'
   }
-});
+};
 
-class Comment extends Component {
+export class Comment extends Component {
   state = {
     anchorMenu: null,
     editable: false
@@ -42,6 +42,8 @@ class Comment extends Component {
   handleEditComment = editable => {
     this.setState({ editable, anchorMenu: false });
   };
+
+  handleFinishEditComment = () => this.handleEditComment(false);
   renderComment() {
     const { comment, classes, upVoteComment, downVoteComment, deleteComment, user } = this.props;
     return (
@@ -51,6 +53,7 @@ class Comment extends Component {
             action={
               user.username === comment.author && (
                 <IconButton
+                  id="menu"
                   aria-label="More"
                   aria-owns={this.state.anchorMenu ? 'comment-menu' : null}
                   aria-haspopup="true"
@@ -65,10 +68,18 @@ class Comment extends Component {
           />
           <CardContent>
             <Typography paragraph>{comment.body}</Typography>
-            <IconButton aria-label="Thumbs Up" onClick={() => upVoteComment(comment.id)}>
+            <IconButton
+              id="up-vote"
+              aria-label="Thumbs Up"
+              onClick={() => upVoteComment(comment.id)}
+            >
               <ThumbUp />
             </IconButton>
-            <IconButton aria-label="Thumbs Down" onClick={() => downVoteComment(comment.id)}>
+            <IconButton
+              id="down-vote"
+              aria-label="Thumbs Down"
+              onClick={() => downVoteComment(comment.id)}
+            >
               <ThumbDown />
             </IconButton>
           </CardContent>
@@ -85,13 +96,13 @@ class Comment extends Component {
             }
           }}
         >
-          <MenuItem onClick={() => this.handleEditComment(true)}>
+          <MenuItem id="edit" onClick={() => this.handleEditComment(true)}>
             <ListItemIcon>
               <EditIcon />
             </ListItemIcon>
             <ListItemText primary="Edit" />
           </MenuItem>
-          <MenuItem onClick={() => deleteComment(comment.id)}>
+          <MenuItem id="delete" onClick={() => deleteComment(comment.id)}>
             <ListItemIcon>
               <DeleteForeverIcon />
             </ListItemIcon>
@@ -104,17 +115,14 @@ class Comment extends Component {
 
   render() {
     return this.state.editable ? (
-      <EditComment
-        comment={this.props.comment}
-        didFinishedEditing={() => this.handleEditComment(false)}
-      />
+      <EditComment comment={this.props.comment} didFinishedEditing={this.handleFinishEditComment} />
     ) : (
       this.renderComment()
     );
   }
 }
 
-const mapStateToProps = ({ user }) => ({ user });
+export const mapStateToProps = ({ user }) => ({ user });
 
 export default withStyles(styles)(
   connect(

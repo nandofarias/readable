@@ -17,7 +17,7 @@ const styles = {
   }
 };
 
-class ListPosts extends Component {
+export class ListPosts extends Component {
   byVoteScore = (postA, postB) => postB.voteScore - postA.voteScore;
   byDate = (postA, postB) => postB.timestamp - postA.timestamp;
 
@@ -50,7 +50,7 @@ class ListPosts extends Component {
             <MenuItem value="by-date">Date</MenuItem>
           </Select>
         </FormControl>
-        {this.props.posts.length > 0 ? (
+        {this.props.posts && this.props.posts.length > 0 ? (
           this.renderPosts()
         ) : (
           <Placeholder text="No posts found :(" icon="forum" />
@@ -60,6 +60,6 @@ class ListPosts extends Component {
   }
 }
 
-const mapStateToProps = ({ posts }) => ({ posts });
+export const mapStateToProps = ({ posts }) => ({ posts });
 
 export default withStyles(styles)(connect(mapStateToProps)(ListPosts));

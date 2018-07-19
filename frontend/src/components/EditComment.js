@@ -16,7 +16,7 @@ const styles = {
     margin: '10px 10px 0 0'
   }
 };
-class EditComment extends Component {
+export class EditComment extends Component {
   state = {
     body: this.props.comment.body
   };
@@ -36,7 +36,7 @@ class EditComment extends Component {
     });
   };
   render() {
-    const { classes } = this.props;
+    const { classes, didFinishedEditing } = this.props;
     return (
       <Card className={classes.container}>
         <CardContent>
@@ -54,8 +54,9 @@ class EditComment extends Component {
               onChange={this.handleInputChange}
             />
             <Button
+              id="cancel"
               variant="outlined"
-              onClick={this.props.didFinishedEditing}
+              onClick={didFinishedEditing}
               color="primary"
               className={classes.button}
             >

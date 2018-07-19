@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { getCategories } from '../actions/categories';
 import { getCategoryPosts } from '../actions/posts';
 
-class ListCategories extends Component {
+export class ListCategories extends Component {
   componentDidMount() {
     this.props.getCategories();
   }
@@ -29,7 +29,7 @@ class ListCategories extends Component {
   }
 }
 
-const mapStateToProps = ({ categories }) => ({ categories });
+export const mapStateToProps = ({ categories }) => ({ categories });
 
 export default connect(
   mapStateToProps,

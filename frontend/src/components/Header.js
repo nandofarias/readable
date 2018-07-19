@@ -18,7 +18,7 @@ const styles = {
     flex: 1
   }
 };
-const Header = ({ isUserLoggedIn, getAllPosts, logout, classes }) => {
+export const Header = ({ isUserLoggedIn, getAllPosts, logout, classes }) => {
   return (
     <div className={classes.root}>
       <AppBar position="static">
@@ -33,18 +33,19 @@ const Header = ({ isUserLoggedIn, getAllPosts, logout, classes }) => {
             }}
           >
             <Typography variant="title" color="inherit">
-              {'Material News'}
+              Readable
             </Typography>
           </Button>
           <div className={classes.flex}>
             <ListCategories />
           </div>
           {!isUserLoggedIn ? (
-            <Button component={Link} to="/login" color="inherit">
+            <Button id="login" component={Link} to="/login" color="inherit">
               Login
             </Button>
           ) : (
             <Button
+              id="logout"
               component={Link}
               to="/login"
               color="inherit"
@@ -61,7 +62,7 @@ const Header = ({ isUserLoggedIn, getAllPosts, logout, classes }) => {
   );
 };
 
-const mapStateToProps = ({ user }) => ({ isUserLoggedIn: user.isLoggedIn });
+export const mapStateToProps = ({ user }) => ({ isUserLoggedIn: user.isLoggedIn });
 
 export default withStyles(styles)(
   connect(

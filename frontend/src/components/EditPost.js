@@ -13,7 +13,7 @@ const styles = {
   }
 };
 
-class EditPost extends Component {
+export class EditPost extends Component {
   state = {
     title: this.props.post.title,
     body: this.props.post.body
@@ -62,6 +62,7 @@ class EditPost extends Component {
               onChange={this.handleInputChange}
             />
             <Button
+              id="cancel"
               variant="outlined"
               onClick={this.props.didFinishedEditing}
               color="primary"
