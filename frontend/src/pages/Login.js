@@ -14,7 +14,7 @@ const styles = {
     width: '400px'
   }
 };
-const Login = ({ classes }) => (
+export const Login = ({ classes }) => (
   <div className={classes.container}>
     <div className={classes.form}>
       <LoginForm />

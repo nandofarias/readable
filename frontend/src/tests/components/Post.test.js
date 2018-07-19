@@ -74,6 +74,12 @@ describe('/components/Post', () => {
     expect(wrapper.find('CardHeader').props().title).toEqual('Test');
     expect(wrapper.find('CardHeader').props().subheader).toEqual('last Thursday at 2:11 PM');
   });
+
+  it('should render post comments if expandComments is true and user is logged in', () => {
+    const newProps = { ...props, expandComments: true };
+    shallow(<Post {...newProps} />);
+    expect(props.getComments).toHaveBeenCalledWith(1530666282);
+  });
   it('should render post comments if user is logged in clicking on IconButton', () => {
     const store = configureStore([])({ user: props.user });
     const wrapper = mount(

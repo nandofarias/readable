@@ -3,7 +3,7 @@ import ListPosts from '../components/ListPosts';
 import NewPost from '../components/NewPost';
 import { getAllPosts, getCategoryPosts } from '../actions/posts';
 import { connect } from 'react-redux';
-class Home extends Component {
+export class Home extends Component {
   componentDidMount() {
     const { match, getCategoryPosts, getAllPosts } = this.props;
     if (match.params.category) {
@@ -23,7 +23,7 @@ class Home extends Component {
   }
 }
 
-const mapStateToProps = ({ user }) => ({ isUserLoggedIn: user.isLoggedIn });
+export const mapStateToProps = ({ user }) => ({ isUserLoggedIn: user.isLoggedIn });
 
 export default connect(
   mapStateToProps,

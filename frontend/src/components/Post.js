@@ -53,12 +53,20 @@ export const styles = theme => ({
   lightLink: { color: 'green' }
 });
 export class Post extends Component {
-  state = { expanded: false, anchorMenu: null, editable: false, openSnackbar: false };
+  state = {
+    expanded: this.props.expandComments,
+    anchorMenu: null,
+    editable: false,
+    openSnackbar: false
+  };
+
+  componentDidMount() {
+    const { user, getComments, post } = this.props;
+    if (this.state.expanded && user.isLoggedIn) getComments(post.id);
+  }
 
   handleExpandClick = postId => {
-    if (!this.state.expanded) {
-      this.props.getComments(postId);
-    }
+    if (!this.state.expanded) this.props.getComments(postId);
     this.setState({ expanded: !this.state.expanded });
   };
 
