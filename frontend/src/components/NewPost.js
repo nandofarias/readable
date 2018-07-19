@@ -12,7 +12,7 @@ import { withStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
 import { createPost } from '../actions/posts';
 
-const styles = () => ({
+const styles = {
   floatingButton: {
     margin: 0,
     top: 'auto',
@@ -21,8 +21,8 @@ const styles = () => ({
     left: 'auto',
     position: 'fixed'
   }
-});
-class NewPost extends Component {
+};
+export class NewPost extends Component {
   state = {
     isDialogOpened: false,
     title: '',
@@ -123,10 +123,10 @@ class NewPost extends Component {
               </TextField>
             </DialogContent>
             <DialogActions>
-              <Button variant="outlined" onClick={this.handleClose} color="primary">
+              <Button id="cancel" variant="outlined" onClick={this.handleClose} color="primary">
                 Cancel
               </Button>
-              <Button variant="contained" type="submit" color="primary">
+              <Button id="submit" variant="contained" type="submit" color="primary">
                 Create
               </Button>
             </DialogActions>
@@ -137,7 +137,7 @@ class NewPost extends Component {
   }
 }
 
-const mapStateToProps = ({ categories, user }) => ({ categories, author: user.username });
+export const mapStateToProps = ({ categories, user }) => ({ categories, author: user.username });
 
 export default withStyles(styles)(
   connect(

@@ -93,6 +93,8 @@ export class Post extends Component {
   handleSnackbarClose = () => {
     this.setState({ openSnackbar: false });
   };
+
+  handleFinishEditPost = () => this.handleEditPost(false);
   renderPost() {
     const { post, comments, classes, user } = this.props;
     return (
@@ -106,6 +108,7 @@ export class Post extends Component {
             }
             action={
               <IconButton
+                id="menu"
                 aria-label="More"
                 aria-owns={this.state.anchorMenu ? 'post-menu' : null}
                 aria-haspopup="true"
@@ -134,7 +137,11 @@ export class Post extends Component {
             <IconButton aria-label="Thumbs Down" onClick={this.handleDownVote}>
               <ThumbDown />
             </IconButton>
-            <Button color="inherit" onClick={() => this.handleExpandClick(post.id)}>
+            <Button
+              id="comments-count"
+              color="inherit"
+              onClick={() => this.handleExpandClick(post.id)}
+            >
               {post.commentCount} Comments
             </Button>
             <IconButton
@@ -161,7 +168,11 @@ export class Post extends Component {
                 )}
               </div>
             ) : (
-              <Typography className={classes.centerText} variant="body1">
+              <Typography
+                id="no-comments-placeholder"
+                className={classes.centerText}
+                variant="body1"
+              >
                 <Link to="/login">Login</Link> to comment on this post and see the others comments.
               </Typography>
             )}
@@ -180,7 +191,7 @@ export class Post extends Component {
           }}
         >
           {user.username === post.author && (
-            <MenuItem onClick={() => this.handleEditPost(true)}>
+            <MenuItem id="edit" onClick={() => this.handleEditPost(true)}>
               <ListItemIcon>
                 <EditIcon />
               </ListItemIcon>
@@ -188,7 +199,7 @@ export class Post extends Component {
             </MenuItem>
           )}
           {user.username === post.author && (
-            <MenuItem onClick={this.handleDeletePost}>
+            <MenuItem id="delete" onClick={this.handleDeletePost}>
               <ListItemIcon>
                 <DeleteForeverIcon />
               </ListItemIcon>
@@ -208,10 +219,11 @@ export class Post extends Component {
           onClose={this.handleSnackbarClose}
           message={
             <span id="message-must-login">
-              You must{' '}
+              You must
               <Link to="/login" className={classes.lightLink}>
-                login
-              </Link>{' '}
+                {' '}
+                login{' '}
+              </Link>
               to perform this action
             </span>
           }
@@ -222,7 +234,7 @@ export class Post extends Component {
 
   render() {
     return this.state.editable ? (
-      <EditPost post={this.props.post} didFinishedEditing={() => this.handleEditPost(false)} />
+      <EditPost post={this.props.post} didFinishedEditing={this.handleFinishEditPost} />
     ) : (
       this.renderPost()
     );

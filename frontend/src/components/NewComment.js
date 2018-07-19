@@ -18,7 +18,7 @@ const styles = {
   }
 };
 
-class NewComment extends Component {
+export class NewComment extends Component {
   state = {
     body: ''
   };
@@ -69,7 +69,7 @@ class NewComment extends Component {
   }
 }
 
-const mapStateToProps = ({ user }) => ({ author: user.username });
+export const mapStateToProps = ({ user }) => ({ author: user.username });
 
 export default withStyles(styles)(
   connect(
